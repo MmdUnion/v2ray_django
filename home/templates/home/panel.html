@@ -1,0 +1,385 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1">
+
+    <title>پنل کاربری</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+  background: linear-gradient(to top, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+}
+
+
+
+.table-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 20px;
+}
+
+@media (max-width: 576px) {
+  .table-container {
+      overflow-x: auto;
+  }
+}
+.modal-dark .modal-content {
+  background: #092c52;
+  color: #fff;
+}
+
+.modal-dark .close {
+  color: #fff !important;
+  background-color: #fff !important;
+}
+
+.modal-dark .close:hover {
+  color: #ccc !important;
+  background-color: #fff !important;
+
+}
+
+.qrcode > canvas {
+    display: inline !important;
+    border: 20px solid white !important;    /* Styles for the canvas */
+}
+
+  
+.copy-icon {
+position: absolute;
+top: 0;
+right: 0;
+bottom: 0;
+width: 40px;
+display: flex;
+align-items: center;
+justify-content: center;
+cursor: pointer;
+}
+
+.copy-icon i {
+color: #5868bf;
+}
+table td,
+table th {
+text-overflow: ellipsis;
+white-space: nowrap;
+overflow: hidden;
+}
+
+thead th,
+tbody th {
+color: #fff;
+}
+
+tbody td {
+font-weight: 500;
+color: rgba(255,255,255,.65);
+}
+    </style>
+</head>
+<body>
+
+
+      <div class="modal modal-dark fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" data-bs-theme="dark">
+
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel"></h5>
+                    <button type="button" class="btn-close close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p class="text-center">لینک اشتراک (برای کپی کلیک کنید)</p>
+                    <div class="input-group justify-content-center text-center">
+                        <input type="text" id="copy-sub" class="form-control" value="" readonly style="text-align: center;">
+                        
+                    </div>
+                    <hr>
+                </div>
+                <hr>
+
+                <p class="text-center mb-3"> کانفیگ های لینک اشتراک, بصورت تکی در این قسمت قرار گرفته اند تا در صورت عدم دسترسی به لینک اشتراک, از اینجا آنها را دریافت کنید ( توصیه میشود همواره از لینک اشتراک برای دریافت آخرین آپدیت کانفیگ ها استفاده نمایید) </p>
+                <div class="config-details justify-content-center text-center"></div>
+            </div>
+        </div>
+    </div>
+    
+
+    <div class="row table-container justify-content-center" dir="rtl">
+        
+        <div class="table-responsive-xl">
+            <button type="button" id="sendTicket" class="btn btn-dark text-right text-align-right justify-content-right mb-3" style="background: #470737;">
+                ارسال تیکت
+
+              </button>
+              
+              <!-- Modal -->
+            <div class="modal modal-dark fade modal-dialog-scrollable" id="ticketModal" tabindex="-1" aria-labelledby="ticketModal" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="btn-close close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <h5 class="modal-title" id="exampleModalLabel">تیکت ها</h5>
+                        </div>
+
+                    <div class="modal-body">
+                        <div class="ticketMessage">
+                        </div>
+                        <div class="input-group mt-4">
+
+                            <textarea id="sendmessage-text" class="form-control rounded" placeholder="پیامی بنویسید...." oninput="autoResize(this)" style="height: 41px;"></textarea>
+                                <i id="sendMessage" class="input-group-text bi bi-send" style="border-top-left-radius:0.25rem;border-bottom-left-radius: 0.25rem;"></i>
+                        </div>
+
+
+
+                    </div>
+
+
+
+
+
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">بستن</button>
+
+                    </div>
+                    
+                  </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+            <table class="table table-xl table-bordered rounded-3" style="background-color: #092c52;border-color: #373b3e;">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col" class="text-right">نام کانفیگ</th>
+                        <th scope="col" class="text-right">وضعیت</th>
+                        <th scope="col" class="text-right">حجم کل</th>
+                        <th scope="col" class="text-right">حجم باقی مانده</th>
+                        <th scope="col" class="text-right">مدت زمان</th>
+                        <th scope="col" class="text-right">مشخصات</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {{ config_data|json_script:"user-configs" }}
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    
+    <script src="https://cdn.rawgit.com/KeeeX/qrcodejs/master/qrcode.min.js"></script>
+    <script >
+        // load data
+        var jsonData = JSON.parse(document.getElementById('user-configs').textContent);
+
+        // show configs
+        for (var x in jsonData.configs) {
+            const element = jsonData.configs[x][0];
+            $("tbody").append(`<tr><td class="text-right">${element.name}</td><td><span class="badge bg-${element.status ? "success": "danger"} rounded-pill d-inline">${element.status ? "فعال": "غیرفعال"}</span></td><td class="text-right">${element.size}</td><td class="text-right">${element.remain_size}</td><td class="text-right">${element.remain_time}</td><td><button data-button="${element.id}" type="button" class="btn btn-primary btn-sm btn-rounded more-detail">بیشتر</button></td></tr>`)
+        }
+
+        if (jsonData.tickets[1]) {
+            $("#sendTicket").append(`<span class=" badge rounded-pill bg-danger" style="background: #807677 !important;">1+<span class="visually-hidden">unread messages</span></span>`)
+
+            
+        }
+
+        function autoResize(element) {
+                element.style.height = element.scrollHeight + 'px';
+            }
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+            }
+
+        // copy sub
+        $("#copy-sub").on("click", function (event){
+            var copyText = document.getElementById("copy-sub");
+            var copyTextBefore = document.getElementById("copy-sub").value;
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            document.execCommand("copy");
+
+            $("#copy-sub").val("متن کپی شد")
+
+            setTimeout(function() {
+                $("#copy-sub").val(copyTextBefore);
+            }, 500);
+
+        })
+
+
+        // copy config link
+        $(".config-details").on("click", ".form-control", function(event) {
+            var copyText = event.target;
+            var copyTextBefore = event.target.value;
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            document.execCommand("copy");
+
+            event.target.value = "متن کپی شد"
+            setTimeout(function() {
+                event.target.value = copyTextBefore
+            }, 500);
+        });
+
+
+
+        $("#sendTicket").on("click", function(event){
+            $(".ticketMessage").empty()
+            $(".ticketMessage").append(`<div><div class="d-flex flex-row align-items-start mb-2" dir="ltr"><img src="/static/chat-picture.jpg" class="rounded-pill" alt="avatar 1" style="width: 45px; height: 100%;border:0.001rem solid #6d5757;"><div class="p-3 ms-3" style="border-radius: 15px; background-color: rgba(57, 192, 237, .2);"><p class="small mb-0" style="word-wrap:anywhere;">آماده پاسخگویی هستیم</p></div></div></div>`)
+
+            $("#ticketModal").modal("show")
+
+            jsonData.tickets[0].forEach(element => {
+                prepareText = element.slice(2)
+
+                if (element.startsWith("u:")){
+
+                    $(".ticketMessage").append(`<div><div class="d-flex flex-row align-items-end mb-2" dir="rtl"><div class="p-3 me-3" style="border-radius: 15px; background-color: rgba(57, 192, 237, .2);"><p class="small mb-0" style="word-wrap:anywhere;">${prepareText}</p></div></div></div>`)
+
+                }else{
+                    $(".ticketMessage").append(`<div><div class="d-flex flex-row align-items-start mb-2" dir="ltr"><img src="/static/chat-picture.jpg" class="rounded-pill" alt="avatar 1" style="width: 45px; height: 100%;border:0.001rem solid #6d5757;"><div class="p-3 ms-3" style="border-radius: 15px; background-color: rgba(57, 192, 237, .2);"><p class="small mb-0" style="word-wrap:anywhere;">${prepareText}</p></div></div></div>`)
+
+
+
+                }
+                
+            });
+
+
+            $.ajax({
+                type : "POST",
+                url: window.location.origin +'/send-seen-ticket/',
+                beforeSend: function(request) {
+                    request.setRequestHeader("X-CSRFToken", getCookie("csrftoken"));
+                    request.setRequestHeader("mode", "same-origin");
+                },
+                success: function(response){
+                    $("#sendTicket").find("span").remove()
+                }
+                })
+            
+
+
+        })
+
+
+        $("#sendMessage").on("click", function(event){
+            getMessage = $("#sendmessage-text")
+            getValue = getMessage.val()
+            getMessage.val("")
+            $.ajax({
+                type : "POST",
+                url: window.location.origin +'/send-ticket/',
+                data: {text_message:getValue},
+                beforeSend: function(request) {
+                    request.setRequestHeader("X-CSRFToken", getCookie("csrftoken"));
+                    request.setRequestHeader("mode", "same-origin");
+                    $("#sendMessage").removeClass("bi-send")
+                    $("#sendMessage").addClass("bi-three-dots")
+
+                },
+                success: function (response){
+                    if (response.success) {
+
+                        $(".ticketMessage").append(`<div><div class="d-flex flex-row align-items-end mb-2" dir="rtl"><div class="p-3 me-3" style="border-radius: 15px; background-color: rgba(57, 192, 237, .2);"><p class="small mb-0" style="word-wrap:anywhere;">${getValue}</p></div></div></div>`)
+
+                        
+                    }else{
+                        $("#sendmessage-text").css("border", "2px solid red")
+                        setTimeout(function(){
+                            getMessage.val(getValue)
+                            $("#sendmessage-text").css("border", "")
+
+                        }, 2500)
+                        
+                    }
+                },
+
+                error: function (response){
+                    $("#sendmessage-text").css("border", "2px solid red")
+                        setTimeout(function(){
+                            getMessage.val(getValue)
+                            $("#sendmessage-text").css("border", "")
+
+                        }, 2500)
+
+                },
+                complete: function() {
+                    $("#sendMessage").removeClass("bi-three-dots")
+                    $("#sendMessage").addClass("bi-send")
+                },
+
+                })
+
+            })
+
+
+        // show per config data
+        $(".more-detail").on("click", function(event) {
+            var dataButton = $(this).attr("data-button");
+            configData = jsonData.configs[dataButton]
+            $("#staticBackdropLabel").html(configData[0].name)
+
+            $(".config-details").empty()
+
+            $("#copy-sub").val(configData[0].sub_link)
+
+
+
+            configData.forEach(function callback(element, index) {
+                $(".config-details").append(`<div id="qrcode-${index}" class="qrcode"><p class="text-center"><p>${element.special_name} (برای کپی کلیک کنید)</p><div class="input-group justify-content-center text-center"><input type="text" class="form-control" value="${element.raw_config}" readonly style="text-align: center;"></div></div><hr>`)
+
+                var qrcode = new QRCode(document.getElementById(`qrcode-${index}`), {
+                    text: element.raw_config,
+                    width: 256,
+                    height: 256,
+                    colorDark : "#000000",
+                    colorLight : "#ffffff",
+                    correctLevel : QRCode.CorrectLevel.H
+                    
+                });
+                $(`#qrcode-${index}`).find("img").remove();
+                $(`#qrcode-${index}`).find("canvas").addClass("mt-2");
+
+
+                
+            });
+            $(".config-details").append(`<div class="d-grid gap-2"><button type="button" class="btn btn-primary" data-bs-dismiss="modal">بستن</button></div>`)
+
+            $("#staticBackdrop").modal("show");
+
+        })
+
+
+
+
+
+    </script>
+
+</body>
+</html>

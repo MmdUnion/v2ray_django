@@ -1,0 +1,109 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Description">
+    <meta name="author" content="Author">
+
+
+    <!-- Webpage Title -->
+    <title>مشخصات اشتراک</title>
+    
+    <!-- Styles -->
+  <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+  <style>
+            html,
+        body,
+        .intro {
+        height: 100%;
+        }
+
+        .gradient-custom-2 {
+        /* fallback for old browsers */
+        background: #6a11cb;
+
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: -webkit-linear-gradient(to top, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: linear-gradient(to top, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1))
+        }
+        table td,
+        table th {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        }
+
+        thead th,
+        tbody th {
+        color: #fff;
+        }
+
+        tbody td {
+        font-weight: 500;
+        color: rgba(255,255,255,.65);
+        }
+
+  </style>
+	
+	<!-- Favicon  -->
+  <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
+</head>
+<body data-spy="scroll" data-target=".fixed-top" dir="rtl">
+    <section class="intro">
+        <div class="gradient-custom-2 h-100">
+          <div class="mask d-flex align-items-center h-100">
+            <div class="container">
+              <div class="row justify-content-center">
+                <div class="col-12">
+                  <div class="table-responsive-xl">
+                    <table class="table table-xl table-dark table-bordered text-right rounded-3" dir="rtl" >
+                      <thead>
+                        <tr>
+                          <th scope="col">کانفیگ</th>
+                          <th scope="col" >اطلاعات</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th scope="row">نام : </th>
+                          <td>{{name}}</td>
+
+                        </tr>
+                        <tr>
+                          <th scope="row">حجم کل : </th>
+                          <td>{{total_size}}</td>
+
+                        </tr>
+                        <tr>
+                          <th scope="row">حجم باقی مانده : </th>
+                          <td>{{remain_size}}</td>
+
+                        </tr>
+                        <tr>
+                          <th scope="row">مدت زمان کل : </th>
+                          <td>{{total_time}}</td>
+
+                        </tr>
+                        <tr>
+                          <th scope="row">مدت زمان باقی مانده : </th>
+                          <td>{{remain_time}}</td>
+
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+</body>
+</html>

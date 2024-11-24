@@ -1,0 +1,71 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Description">
+    <meta name="author" content="Author">
+
+
+    <!-- Webpage Title -->
+    <title>{% block title %}{% endblock title %}</title>
+    
+    <!-- Styles -->
+  <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+	<style>
+        html,
+        body,
+        .intro {
+        height: 100%;
+        }
+
+        .gradient-custom-2 {
+        /* fallback for old browsers */
+        background: #6a11cb;
+
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: -webkit-linear-gradient(to top, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: linear-gradient(to top, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1))
+        }
+
+        .errorlist > li{
+            direction: rtl;
+            text-align: right;
+            color: red;
+        }
+    </style>
+	
+	<!-- Favicon  -->
+  <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
+</head>
+
+<body data-spy="scroll" data-target=".fixed-top" dir="rtl">
+    <section class="intro">
+        <div class="gradient-custom-2 h-100 w-100">
+            <div class="mask d-flex align-items-center h-100 w-100">
+              <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-10">
+                        <h2 class="text-white text-center mb-5">ورود به حساب</h2>
+                        <form action="{% url 'home:login_view' %}" method="post">
+                            {% csrf_token %}
+                            {{ form }}
+                            <input type="submit" class="btn btn-primary btn-block mt-3" value="ورود">
+                        </form>
+
+                    </div>
+               </div>
+            </div>
+            </div>
+        </div>
+      </section>
+</body>
+
+
+</html>

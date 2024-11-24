@@ -1,0 +1,109 @@
+<div class="row justify-content-center">
+    <div class="col-12">
+      <div class="table-responsive-xl">
+        <table class="table table-xl table-dark table-bordered text-right rounded-3" dir="rtl" >
+          <thead>
+            <tr>
+              <th scope="col">کانفیگ</th>
+              <th scope="col" >اطلاعات</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">نام : </th>
+              <td>{{name}}</td>
+  
+            </tr>
+            <tr>
+              <th scope="row">حجم کل : </th>
+              <td>{{total_size}}</td>
+  
+            </tr>
+            <tr>
+              <th scope="row">حجم باقی مانده : </th>
+              <td>{{remain_size}}</td>
+  
+            </tr>
+            <tr>
+              <th scope="row">مدت زمان کل : </th>
+              <td>{{total_time}}</td>
+  
+            </tr>
+            <tr>
+              <th scope="row">مدت زمان باقی مانده : </th>
+              <td>{{remain_time}}</td>
+  
+            </tr>
+          </tbody>
+        </table>
+
+        
+
+
+
+        <style>
+          html {
+              background: linear-gradient(to top, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1))
+          }
+          table td,
+          table th {
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+          }
+  
+          thead th,
+          tbody th {
+          color: #fff;
+          }
+  
+          tbody td {
+          font-weight: 500;
+          color: rgba(255,255,255,.65);
+          }
+      </style>
+
+
+
+
+
+
+
+
+
+
+
+    
+<div class="row" id="items">
+
+  <div class="col-lg-4 mt-4 mx-auto">
+      <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Config AliM</h5>
+            <p class="card-text">وضعیت: فعال</p>
+            <p class="card-text">وضعیت: فعال</p>
+            <p class="card-text">وضعیت: فعال</p>
+            <p class="card-text">وضعیت: فعال</p>
+            <a href="#" class="card-link">Card link</a>
+            <a href="#" class="card-link">Another link</a>
+          </div>
+        </div>
+  </div>
+
+
+
+
+
+  <h3 class="text-center text-white mb-5">ورود به حساب</h3>
+<div class="row justify-content-center">
+    <form class="form col-xs-12 col-md-5 " dir="rtl" action="{% url 'home:login_view' %}" method="post">
+        <div class="form-group text-white text-right">
+            {% csrf_token %}
+            {{form}}
+
+        </div>
+
+        <input type="submit" class="btn btn-primary btn-block" value="ورود">
+    </form>
+
+</div>
