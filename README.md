@@ -32,7 +32,7 @@
 
 <h1>Usage: </h1>
 <ol>
-<li>run: <code>git clone https://github.com/MmdUnion/v2ray_django.git</code></li>
+<li>run: <code>git clone https://github.com/MmdUnion/v2ray_django.git && cd v2ray_django</code></li>
 <li>in v2_django/settings.py edit:</li>
     - line 24: generate your secret key, you can use some sites like: 
     <a href="https://django-secret-key-generator.netlify.app">Django secret key generator</a><br/>
@@ -47,7 +47,9 @@
 
 <li>run: <code>pip install -r requirements.txt</code></li>
 <li>run: <code>python3 manage.py migrate</code></li>
+<li>run: <code>python3 manage.py createsuperuser</code></li>
 <li>run: <code>python3 manage.py runserver</code></li>
+<li>Finally: login to your admin panel, then create user and point the user to config id in the 3xui panel, then if user login with its credentials he/she can see its existing configs</li>
 </ol>
 <br/>
 
